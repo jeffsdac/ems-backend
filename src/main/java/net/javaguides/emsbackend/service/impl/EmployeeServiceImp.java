@@ -48,5 +48,34 @@ public class EmployeeServiceImp implements EmployeeService{
                 .map((employee) -> EmployeeMapper.mapToEmployeeDto(employee))
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public EmployeeDTO updateEmploee(Long id, EmployeeDTO empDto) {
+        Employee employee = employeeRepository.findById(id)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("Não há usuários com o ID informado: "+ id)
+        );
+
+        employee.setFirstName(empDto.getFirstName());
+        employee.setLastName(empDto.getLastName());
+        employee.setEmail(empDto.getEmail());
+
+        Employee uptadedEmployeeObj = employeeRepository.save(employee);
+
+
+        return EmployeeMapper.mapToEmployeeDto(uptadedEmployeeObj);
+    }
+
+
+    @Override
+    public void deleteEmployee(Long id) {
+        Employee employee = employeeRepository.findById(id)
+        .orElseThrow(
+            () -> new ResourceNotFoundException("Não há usuários com o ID informado: "+ id)
+        );
+
+        employeeRepository.deleteById(id);
+    }
     
 }
