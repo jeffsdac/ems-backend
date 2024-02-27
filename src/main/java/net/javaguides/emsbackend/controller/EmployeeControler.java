@@ -2,6 +2,8 @@ package net.javaguides.emsbackend.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,4 +29,12 @@ public class EmployeeControler {
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
     
+    // Build get Employee rest API
+
+    @GetMapping("{id}")
+    public ResponseEntity<EmployeeDTO> getEmployeeById (@PathVariable("id") long employeeId){
+        EmployeeDTO employee = employeeService.getEmployeeById(employeeId);
+
+        return ResponseEntity.ok(employee);
+    }
 }
