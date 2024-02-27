@@ -1,5 +1,8 @@
 package net.javaguides.emsbackend.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +37,16 @@ public class EmployeeServiceImp implements EmployeeService{
             () -> new ResourceNotFoundException("Não há funcionários com esse ID: " + employeeId));
 
         return EmployeeMapper.mapToEmployeeDto(employee);
+    }
+
+
+    @Override
+    public List<EmployeeDTO> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return 
+            employees.stream()
+                .map((employee) -> EmployeeMapper.mapToEmployeeDto(employee))
+                .collect(Collectors.toList());
     }
     
 }
